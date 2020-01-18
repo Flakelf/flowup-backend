@@ -1,35 +1,29 @@
-const UserShema = require("../models/User");
+const UserSchema = require("../models/User");
 
 module.exports = {
-  test: (req, res) => {
-    const randomUsers = [
-      "Ivan Ivanov",
-      "Petr Petrov",
-      "Another ruSSnya",
-      "Another ruSSnya 2"
-    ];
-
-    res.status(200).json({
-      randomUser: randomUsers[Math.floor(Math.random() * randomUsers.length)]
-    });
-  },
   reg: async (req, res) => {
+    console.log(req.body);
+
     const { login, password } = req.body;
+
+    let token;
 
     try {
-      await UserShema.create({ login, password });
+      token = await UserSchema.saveUserAndGetToken({ login, password });
     } catch (err) {
-      console.log(err.message); // err.message from model
+      res.status(400).send({ err: err.message });
     }
 
-    res.status(201).end();
+    res.status(201).send({ token });
   },
-  auth: (req, res) => {
-    const { login, password } = req.body;
+  auth: async (req, res) => {
+    try {
+      const token = await UserSchema.getUserByLogin(req.body);
+      res.status(200).send({ token });
+    } catch (err) {
+      return res.status(400).send({ err: err.message });
+    }
 
-    if (login === "flowup" && password === "gfhjkm")
-      res.status(200).send({ token: "abcxyz" });
-
-    res.status(400).end();
+    res.status(200).end();
   }
 };
