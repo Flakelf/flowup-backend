@@ -1,0 +1,25 @@
+name: Deploy (dev)
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    name: Start deploy...
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: SSH Connect with deploy (dev)...
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            bash ~/backend/deploy.dev.sh

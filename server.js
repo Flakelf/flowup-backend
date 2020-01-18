@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
-app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/user", UserRouter);
 
 mongoose
   .connect(
