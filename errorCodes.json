@@ -1,6 +1,0 @@
-{
-  "FU001": "Login must contain at least 3 symbols",
-  "FU002": "Password must contain at least 3 symbols",
-  "FU003": "User with this login not found",
-  "FU004": "Incorrect password"
-}

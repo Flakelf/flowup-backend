@@ -17,8 +17,10 @@ module.exports = {
     res.status(201).send({ token });
   },
   auth: async (req, res) => {
+    const { login, password } = req.body;
+
     try {
-      const token = await UserSchema.getUserByLogin(req.body);
+      const token = await UserSchema.getUserByLogin({ login, password });
       res.status(200).send({ token });
     } catch (err) {
       return res.status(400).send({ err: err.message });
