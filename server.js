@@ -7,12 +7,14 @@ const helmet = require("helmet");
 require("dotenv").config();
 
 const UserRouter = require("./src/routes/UserRoutes");
+const tokenParser = require("./src/middlwares/tokenParser");
 
 const app = express();
 
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
+app.use(tokenParser);
 app.use("/api/v1/user", UserRouter);
 
 mongoose
